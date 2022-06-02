@@ -1,11 +1,12 @@
-"""@file hough_lines.py@brief This program demonstrates line finding with the Hough transform"""
+
 import sys
 import math
 import cv2 as cv
 import numpy as np
-
+print("1")
 
 def main(*argv):
+    print('2')
     #checks argument
     default_file = r'C:\Users\adams\OneDrive\Pulpit\sudoku.png'#rconverts normal string to raw
     if(len(argv) > 0):
