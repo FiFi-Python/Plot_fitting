@@ -7,6 +7,7 @@ import numpy as np
 
 def rotate_bound(image, angle, line1, line2):
     (h, w) = image.shape[:2]
+    #cv.circle(image,(h/2,w/2), radius=0, color=(0, 0, 255), thickness=-1)
     delx1 = line1[2] - line1[0]
     delx2 = line2[2] - line2[0]
     dely1 = line1[3] - line1[1]
@@ -16,9 +17,21 @@ def rotate_bound(image, angle, line1, line2):
     y20 = line2[1]
 
     if (delx1 != 0 and delx2 != 0):#brak prostych pionowych
-        print("dzialaxd")
+        print("dziala0")
 
-        (cX, cY) =(w/2,h/2)#(255/2,255/2)#// ((y20 - y10) / ((dely1 / delx1) - (dely2 / delx2)),  (delx2 * dely1)*(y20 - y10) / (( (delx2 * dely1) - (delx1 * dely2) ))+y10)
+
+        #cX=(dely2*delx1*line2[0]-dely1*delx2*line1[0]+line1[1]*delx2*delx1-line2[1]*delx2*delx1)/(delx1*dely2-dely1*delx2)#(dely2*line2[0]/delx2-dely1*line1[0]/delx1+line1[1]-line2[1])/(dely2/delx2-dely1/delx1)
+       # cY=(cX-line2[0])*dely2/delx2+line2[1]
+        #print(cX,"  ",w/2,"  ",h/2,"  ",cY)
+        cX=w/2
+        cY=h/2
+       # if(dely2>dely1):
+         #   h=dely2
+        #    w=delx1
+       # else:
+        #    h=dely1
+        #    w=delx2
+        #####(w/2,h/2)#(255/2,255/2)#// ((y20 - y10) / ((dely1 / delx1) - (dely2 / delx2)),  (delx2 * dely1)*(y20 - y10) / (( (delx2 * dely1) - (delx1 * dely2) ))+y10)
         M = cv2.getRotationMatrix2D((cX, cY), -angle, 1.0)#rotation matrix around point, angle,
 
         cos = np.abs(M[0, 0])
@@ -37,7 +50,7 @@ def rotate_bound(image, angle, line1, line2):
 
     else:
         if (delx2 != 0):#pierwsza prosta jest pionowa
-            print("dziala")
+            print("dziala1")
 
             (cX, cY) = ((line1[0] + line1[2]) / 2, dely2 / delx2 * (line1[0] + line1[2]) / 2 + line2[1])
             # grab the rotation matrix (applying the negative of the
@@ -72,4 +85,5 @@ def rotate_bound(image, angle, line1, line2):
             M[1, 2] += (nH / 2) - cY
             # perform the actual rotation and return the image
             return cv2.warpAffine(image, M, (nW, nH))
+
             # print("jednak zero")
