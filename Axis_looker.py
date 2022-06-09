@@ -4,6 +4,7 @@ import math
 import cv2
 import cv2 as cv
 import numpy as np
+import argparse
 
 #import functions
 from rotate_bound import rotate_bound
@@ -182,15 +183,45 @@ def main(*argv):
 
 
         obroty = (rotate_bound(prime, phi, l1, l2),rotate_bound(prime, phi+90, l1, l2),rotate_bound(prime, phi+180, l1, l2),rotate_bound(prime, phi+270, l1, l2))
-        cv.imshow("Source", prime)
+        #cv.imshow("Source", prime)
         #cv.imshow("Standard Hough Line Transform", gray)
         # cv.imshow("Probabilistic Line Transform", grayP)
-        cv.imshow("obrocone0", obroty[0])
+       # cv.imshow("obrocone0", obroty[0])
        # cv.imshow("obrocone1", obroty[1])
        # cv.imshow("obrocone2", obroty[2])
        # cv.imshow("obrocone3", obroty[3])
         # cv.imshow("sdz",prime)
         cv.waitKey()
+
+
+
+
+        # Define the blue colour we want to find - remember OpenCV uses BGR ordering
+        ap = argparse.ArgumentParser()
+        ap.add_argument("-i", "--image", help="path to the image")
+        args = vars(ap.parse_args())
+        # load the image
+
+
+       # boundaries = [
+        #    ([128,128,128], [255, 255, 255])
+        #]
+        boundaries = [
+           ([0,0,0], [255, 0, 0])#what to show
+        ]
+
+        for (lower, upper) in boundaries:
+            #print()
+            # create NumPy arrays from the boundaries
+            lower = np.array(lower, dtype="uint8")
+            upper = np.array(upper, dtype="uint8")
+           # print(lower,"  ",upper)
+            print(cv.inRange(prime, lower, upper))
+            mask=cv.inRange(prime, lower, upper)
+            output = cv.bitwise_and(prime, prime, mask=mask)
+
+            cv2.imshow("images", np.hstack([prime, output]))
+            cv2.waitKey(0)
 
         return 0
 
