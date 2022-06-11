@@ -5,12 +5,7 @@ import cv2
 import cv2 as cv
 import numpy as np
 
-
-
-    ###############
-
 def rotate_bound(image, line1, line2):
-
     def Rotation_matrix_and_bounds(image, cX, cY, phi):
         M = cv2.getRotationMatrix2D((cX, cY), phi, 1.0)
         cos = np.abs(M[0, 0])
@@ -18,16 +13,13 @@ def rotate_bound(image, line1, line2):
 
         # compute the new bounding dimensions of the image
 
-        nW =round(1.6*w) #int((h * sin) + (w * cos))
-        nH =round(1.6*h) #int((h * cos) + (w * sin))
+        nW = round(1.6 * w)  # int((h * sin) + (w * cos))
+        nH = round(1.6 * h)  # int((h * cos) + (w * sin))
 
         # adjust the rotation matrix to take into account translation
         M[0, 2] += (nW / 2) - cX
         M[1, 2] += (nH / 2) - cY
-        print(M)
-        print()
         return cv2.warpAffine(image, M, (nW, nH))
-
 
     delx1 = line1[2] - line1[0]
     delx2 = line2[2] - line2[0]
@@ -49,66 +41,24 @@ def rotate_bound(image, line1, line2):
         cX = (b2 - b1) / (a1 - a2)
         cY = a1 * cX + b1
 
-        prime = cv.circle(image, (round(cX), round(cY)), 50, (255, 0, 0), -1)
+        #prime = cv.circle(image, (round(cX), round(cY)), 10, (255, 0, 0), 3)# circle  at the rotation invariant point
 
         tg_phi = dely2 / delx2
         phi = math.atan(tg_phi) * 180 / math.pi
 
-
-
-        return [Rotation_matrix_and_bounds(image,cX,cY,phi+x*90) for x in range(0,3)]#cv2.warpAffine(image, M, (nW, nH))
+        return [Rotation_matrix_and_bounds(image, cX, cY, phi + x * 90) for x in
+                range(0, 4)]  # cv2.warpAffine(image, M, (nW, nH))
     else:
         phi = 0
-        if (abs(delx2)<abs(delx1)):  # second line is vertical
-         #   print("dziala1")
-
-            cX=round((line2[0] + line2[2]) / 2) #point of rotation
-            cY=round(dely1 / delx1 *cX+ line1[1])
-
-
-            M = cv2.getRotationMatrix2D((cX, cY), phi, 1.0)#rotation matrix
-            cos = np.abs(M[0, 0])
-            sin = np.abs(M[0, 1])
-
-            # compute the new bounding dimensions of the image
-            nW = int((h * sin) + (w * cos))
-            nH = int((h * cos) + (w * sin))
-
-            # adjust the rotation matrix to take into account translation
-            M[0, 2] += (nW / 2) - cX
-            M[1, 2] += (nH / 2) - cY
-
-            return cv2.warpAffine(image, M, (nW, nH))
+        if (abs(delx2) < abs(delx1)):  # second line is vertical
+            cX = round((line2[0] + line2[2]) / 2)  # point of rotation
+            cY = round(dely1 / delx1 * cX + line1[1])
+            return [Rotation_matrix_and_bounds(image, cX, cY, phi + x * 90) for x in
+                    range(0, 4)]  # cv2.warpAffine(image, M, (nW, nH))
 
         else:  # druga prosta jest pionowa
             cX = round((line1[0] + line1[2]) / 2)  # point of rotation
             cY = round(dely2 / delx2 * cX + line2[1])
 
-            M = cv2.getRotationMatrix2D((cX, cY), phi, 1.0)
-            cos = np.abs(M[0, 0])
-            sin = np.abs(M[0, 1])
+            return [Rotation_matrix_and_bounds(image, cX, cY, phi + x * 90) for x in range(0, 4)]
 
-            # compute the new bounding dimensions of the image
-            nW = int((h * sin) + (w * cos))
-            nH = int((h * cos) + (w * sin))
-
-            # adjust the rotation matrix to take into account translation
-            M[0, 2] += (nW / 2) - cX
-            M[1, 2] += (nH / 2) - cY
-
-            ###############
-
-            M1 = cv2.getRotationMatrix2D((cX, cY), phi+90, 1.0)
-            cos1 = np.abs(M[0, 0])
-            sin1 = np.abs(M[0, 1])
-
-
-            # compute the new bounding dimensions of the image
-            nW1 = int((h * sin1) + (w * cos1))
-            nH1 = int((h * cos1) + (w * sin1))
-
-            # adjust the rotation matrix to take into account translation
-            M1[0, 2] += (nW1 / 2) - cX
-            M1[1, 2] += (nH1 / 2) - cY
-
-            return cv2.warpAffine(image, M, (nW, nH))
