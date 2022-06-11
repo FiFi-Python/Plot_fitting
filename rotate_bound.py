@@ -5,6 +5,9 @@ import cv2
 import cv2 as cv
 import numpy as np
 
+
+###############
+
 def rotate_bound(image, line1, line2):
     def Rotation_matrix_and_bounds(image, cX, cY, phi):
         M = cv2.getRotationMatrix2D((cX, cY), phi, 1.0)
@@ -19,7 +22,14 @@ def rotate_bound(image, line1, line2):
         # adjust the rotation matrix to take into account translation
         M[0, 2] += (nW / 2) - cX
         M[1, 2] += (nH / 2) - cY
-        return cv2.warpAffine(image, M, (nW, nH))
+        points = np.array([[cX, cY]])
+
+        #  transfrom center
+        ones = np.ones(shape=(len(points), 1))
+        points_ones = np.hstack([points, ones])
+        transformed_points = M.dot(points_ones.T).T
+
+        return [cv2.warpAffine(image, M, (nW, nH)),(round(transformed_points[0][0]),round(transformed_points[0][1]))]#0
 
     delx1 = line1[2] - line1[0]
     delx2 = line2[2] - line2[0]
@@ -31,7 +41,7 @@ def rotate_bound(image, line1, line2):
 
     (h, w) = image.shape[:2]
 
-    if (delx1 != 0 and delx2 != 0):  # brak prostych pionowych
+    if (delx1 != 0 and delx2 != 0):  # no vertical lines
 
         a1 = dely1 / delx1
         a2 = dely2 / delx2
@@ -41,7 +51,7 @@ def rotate_bound(image, line1, line2):
         cX = (b2 - b1) / (a1 - a2)
         cY = a1 * cX + b1
 
-        #prime = cv.circle(image, (round(cX), round(cY)), 10, (255, 0, 0), 3)# circle  at the rotation invariant point
+       # prime = cv.circle(image, (round(cX), round(cY)), 50, (255, 0, 0), -1)
 
         tg_phi = dely2 / delx2
         phi = math.atan(tg_phi) * 180 / math.pi

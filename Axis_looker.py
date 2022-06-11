@@ -118,46 +118,39 @@ def main(*argv):
 
 
         obroty = rotate_bound(prime, l1, l2)#rotation
-        #return obroty
-        #cv.imshow("Original", original)#testing
-        #cv.imshow("Source0", obroty[0])
-        #cv.imshow("Source1", obroty[1])
-        #cv.imshow("Source2", obroty[2])
-        #cv.imshow("Source", obroty[3])
-        #cv.waitKey()
+
+
+        delx1 = l1[2] - l1[0]
+        delx2 = l2[2] - l2[0]
+        dely1 = l1[3] - l1[1]
+        dely2 = l2[3] - l2[1]
+
+        y10 = l1[1]
+        y20 = l2[1]
+
+        (h, w) = original.shape[:2]
+
+
+
+        a1 = dely1 / delx1
+        a2 = dely2 / delx2
+        b1 = l1[1] - l1[0] * a1
+        b2 = l2[1] - l2[0] * a2
+
+        cX = (b2 - b1) / (a1 - a2)
+        cY = a1 * cX + b1
+
         return obroty
+        #cv.imshow("Original", original)#testing
+       # cv.imshow("Source0", obroty[0][0])
+       # cv.imshow("Source1", obroty[1][0])
+       # cv.imshow("Source2", obroty[2][0])
+       # cv.imshow("Source", obroty[3][0])
+       # cv.waitKey()
+       # print(obroty[0][1])
+       # return obroty
+        #return 1
 
-        """  # Define the blue colour we want to find - remember OpenCV uses BGR ordering
-                ap = argparse.ArgumentParser()
-                ap.add_argument("-i", "--image", help="path to the image")
-                args = vars(ap.parse_args())
-                # ]
-                boundaries = [
-                    ([0, 0, 0], [255, 0, 0])  # what to show
-                ]
-
-                for (lower, upper) in boundaries:
-                # print()
-                # create NumPy arrays from the boundaries
-                    lower = np.array(lower, dtype="uint8")
-                upper = np.array(upper, dtype="uint8")
-                # print(lower,"  ",upper)
-                #print(cv.inRange(prime, lower, upper))
-                mask = cv.inRange(prime, lower, upper)
-                output = cv.bitwise_and(prime, prime, mask=mask)
-
-                cv.imshow("images", np.hstack([prime, output]))
-                cv.waitKey(0)
-                return 0"""
-
-    else:
-        print("Not a single line detected! try to do it manualy")
-        return 0
-
-#################################################################Probabilistic
-
-
-# linesP = cv.HoughLinesP(canny, 1, np.pi / 180, 3, None, 50, 10)
 
 
 # cv.imshow('lul',grayP)
