@@ -13,7 +13,7 @@ def main(*argv):
     if (len(argv) > 0):
         filename = argv[0]
     else:
-        print("Nie podano nazwy!")
+        print("No file name given!")
         return -1
 
     # Loads an image
