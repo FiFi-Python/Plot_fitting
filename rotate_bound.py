@@ -28,6 +28,8 @@ def rotate_bound(image, line1, line2):
         ones = np.ones(shape=(len(points), 1))
         points_ones = np.hstack([points, ones])
         transformed_points = M.dot(points_ones.T).T
+      #  cv.imshow("obrot0",cv2.warpAffine(image, M, (nW, nH)),(round(transformed_points[0][0]))
+      #  cv.waitKey()
 
         return [cv2.warpAffine(image, M, (nW, nH)),(round(transformed_points[0][0]),round(transformed_points[0][1]))]#0
 

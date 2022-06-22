@@ -45,15 +45,15 @@ def main(*argv):
             if((coord[i][0][1]>cX+5 or coord[i][0][1]<cY-5)):
                 prime = cv.circle(prime, (round(coord[i][0][0]), round(coord[i][0][1])), 1, (255, 0, 0), -1)
 
-    #cv.imshow("images", prime)
+    # return cv.imshow("Output images", prime)
     #cv.waitKey(0)
-    return [prime,coord]
+    return [prime, coord]
 
 #original = cv.imread(r"C:\Users\adams\OneDrive\Pulpit\function_tilted_plot.png")
 #main(original,100,100)
 # , cv.IMREAD_GRAYSCALE)
-#main(r"C:\Users\adams\OneDrive\Pulpit\function_tilted_plot.png")#works
-#main(r"C:\Users\adams\OneDrive\Pulpit\tilted.png")#works
+#original = cv.imread(r"{}".format("C:\Users\Lenovo\Desktop\aaa\function_tilted_plot.png"))
+# main(original,100,100)#main(r"C:\Users\adams\OneDrive\Pulpit\tilted.png")#works
 #main(r"C:\Users\adams\OneDrive\Pulpit\function_plot.png")#works
 #main(r"C:\Users\adams\Downloads\plot2.png", 100, 100)#works
 #main(r"C:\Users\adams\Downloads\output-onlinepngtools.png")#works

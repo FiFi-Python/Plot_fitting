@@ -10,6 +10,7 @@ from rotate_bound import rotate_bound
 
 
 def main(*argv):
+  #  print("lol")
     if (len(argv) > 0):
         filename = argv[0]
     else:
@@ -139,6 +140,8 @@ def main(*argv):
 
         cX = (b2 - b1) / (a1 - a2)
         cY = a1 * cX + b1
+        cv.imshow("obrot0",obroty[0][0])
+        cv.waitKey()
 
         return obroty
         #cv.imshow("Original", original)#testing
@@ -156,7 +159,7 @@ def main(*argv):
 # cv.imshow('lul',grayP)
 # cv.waitKey(0)#waits for user interaction
 
-#main(r"C:\Users\adams\OneDrive\Pulpit\function_tilted_plot.png")#works
+main(r"C:\Users\adams\OneDrive\Pulpit\function_tilted_plot.png")#works
 #main(r"C:\Users\adams\OneDrive\Pulpit\tilted.png")#works
 #main(r"C:\Users\adams\OneDrive\Pulpit\function_plot.png")#works
 #main(r"C:\Users\adams\Downloads\plot2.png")#works
